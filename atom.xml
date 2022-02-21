@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://freejool.github.io</id>
     <title>Gridea</title>
-    <updated>2022-02-19T11:10:07.425Z</updated>
+    <updated>2022-02-21T08:33:01.477Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://freejool.github.io"/>
     <link rel="self" href="https://freejool.github.io/atom.xml"/>
@@ -10,6 +10,114 @@
     <logo>https://freejool.github.io/images/avatar.png</logo>
     <icon>https://freejool.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[在VMWare中使用ArchLinux的第一步]]></title>
+        <id>https://freejool.github.io/post/archlinux/</id>
+        <link href="https://freejool.github.io/post/archlinux/">
+        </link>
+        <updated>2022-02-21T01:01:23.000Z</updated>
+        <content type="html"><![CDATA[<p>本文旨在记录我在VMWare中安装Archlinux的过程和中间遇到的坑。<br>
+参考：<a href="https://wiki.archlinux.org/title/Installation_guide">Installation_guide - ArchWiki</a>、<a href="https://www.cnblogs.com/cralor/p/13773986.html">VMware Workstation 安装 Arch Linux - cnblogs</a></p>
+<h1 id="安装">安装</h1>
+<h2 id="创建虚拟机">创建虚拟机</h2>
+<p>在<a href="https://archlinux.org/download/">Arch Linux - Downloads</a>下方的源中选择China中的任一服务器，下载名为archlinux-<em>version</em>-x86_64.iso的文件。</p>
+<p>打开VMWare，新建虚拟机，CPU4核4线程，RAM2G，硬盘20G，其他Linux版本，内核5.x（可以在<a href="https://archlinux.org/download/">Arch Linux - Downloads</a>中找到），并选择好虚拟机本体和虚拟硬盘的位置（推荐储存在固态硬盘）。完成之后，在启动虚拟机之前，打开高级设置，关闭测通道缓解（虽然不知道有什么用但是每次开机跳出来很烦），切换引导方式为<strong>UEFI</strong>。</p>
+<h2 id="启动到live环境">启动到LIVE环境</h2>
+<p>开启虚拟机。进入到一个类似Windows的PE环境的专门用来安装和初始化ArchLinux的环境。之后将在这里完成硬盘分区、基础软件包安装等工作。</p>
+<h2 id="检查网络">检查网络</h2>
+<p>一般来说VMWare会自动配置好，但是以防万一还是先检查一下，因为在分区结束后会通过网络安装基础软件包，到时候才发现就晚了👀。</p>
+<p><code>ping baidu.com</code></p>
+<h2 id="分区和格式化">分区和格式化</h2>
+<p>首先使用<code>lsblk</code>来检查初始状态</p>
+<figure data-type="image" tabindex="1"><img src="https://gitee.com/xy-shen/my-image-beg/raw/master/imgs//1375263-20201006160335886-1419492587.png" alt="" loading="lazy"></figure>
+<p>名为<strong>sda</strong>的就是要操作的硬盘，其余的是LIVE环境的虚拟空间。</p>
+<p>我选择将硬盘分为3个区。（可以参考<a href="https://wiki.archlinux.org/title/Installation_guide#Partition_the_disks">官方文档</a>来获得如何选择分区的提示）</p>
+<figure data-type="image" tabindex="2"><img src="https://gitee.com/xy-shen/my-image-beg/raw/master/imgs//20220221093359.png" alt="" loading="lazy"></figure>
+<ul>
+<li>efi 512M 储存系统引导信息</li>
+<li>swap 2G 内存交换区</li>
+<li>/ 剩余空间（17.5G）系统空间</li>
+</ul>
+<p>分区命令：<code>cfdisk /dev/sda</code>  其中sda是之前<code>lsblk</code>中的设备名称，也可以用fdisk。</p>
+<p>分区表类型选择GPT，并按照提示设定分区大小。</p>
+<h3 id="展示四个分区的初始状态">展示四个分区的初始状态</h3>
+<pre><code>lsblk
+</code></pre>
+<h3 id="格式化三个分区">格式化三个分区</h3>
+<pre><code>mkfs.fat -F 32 /dev/sda1
+mkswap /dev/sda2
+mkfs.ext4 /dev/sda3
+</code></pre>
+<h3 id="挂载三个分区">挂载三个分区</h3>
+<h4 id="创建efi文件夹挂载efi分区">创建efi文件夹,挂载efi分区</h4>
+<pre><code>mkdir /mnt/efi
+mount /dev/sda1 /mnt/efi
+</code></pre>
+<h4 id="swap分区无需挂载-但需要启用">swap分区无需挂载, 但需要启用</h4>
+<pre><code>swapon /dev/sda2
+</code></pre>
+<h4 id="挂载mnt分区这里的mnt目录-就是真实arch的根目录">挂载mnt分区(这里的mnt目录, 就是真实Arch的根目录)</h4>
+<pre><code>mount /dev/sda3 /mnt
+</code></pre>
+<h3 id="展示挂载后的四个分区">展示挂载后的四个分区</h3>
+<pre><code>lsblk
+</code></pre>
+<h2 id="安装archlinux">安装Archlinux</h2>
+<h3 id="选择国内的pacman镜像源">选择国内的Pacman镜像源</h3>
+<p>将<a href="https://archlinux.org/mirrorlist/?country=CN&amp;protocol=http&amp;protocol=https&amp;ip_version=4">中国大陆的pacman镜像列表</a>输入到<code>/etc/pacman.d/mirrorlist</code></p>
+<h3 id="安装基本包">安装基本包</h3>
+<pre><code>pacstrap /mnt base base-devel linux linux-firmware dhcpcd
+</code></pre>
+<p>不知道是什么原因导致安装后没有DHCP服务，导致无法联网，于是在这里手动添加安装项。</p>
+<h3 id="配置fstab">配置Fstab</h3>
+<p>生成已挂载分区的fstab文件，执行以下命令：</p>
+<pre><code>genfstab -U /mnt &gt;&gt; /mnt/etc/fstab
+</code></pre>
+<p>检查是否正确，文件系统被正确挂载<code>cat /mnt/etc/fstab</code>。</p>
+<h3 id="切换到新系统chroot">切换到新系统Chroot</h3>
+<pre><code>arch-chroot /mnt
+</code></pre>
+<h3 id="设置时区">设置时区</h3>
+<p>把<code>localtime</code>软连接到当前时区</p>
+<pre><code>ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+</code></pre>
+<h3 id="设置locale语言选项">设置Locale，语言选项</h3>
+<p>在 <code>/etc/locale.gen</code> 中找到<code>zh_CN.UTF-8 UTF-8</code>  <code>en_US.UTF-8 UTF-8</code> 这两行，去掉行首的#号，保存并退出</p>
+<p>更新Locale信息<code>locale-gen</code></p>
+<p>设定语言，注意在这里不能设置中文，会导致shell乱码</p>
+<p>在<code>vim /etc/locale.conf</code>中添加<code>LANG=en_US.UTF-8</code></p>
+<h3 id="设置主机名">设置主机名</h3>
+<p>在新文件<code>/etc/hostname</code>中输入一个名字，它将作为这个系统的主机名，下文称之myhostname。</p>
+<p>添加如下内容到<code>/etc/hosts</code>，该文件的作用与Windows上的hosts类似。</p>
+<pre><code>127.0.0.1    localhost
+::1          localhost
+127.0.1.1    myhostname.localdomain    myhostname
+</code></pre>
+<h3 id="设置root密码">设置Root密码</h3>
+<pre><code>passwd
+</code></pre>
+<h3 id="安装系统引导工具grub-并生成引导文件">安装系统引导工具grub, 并生成引导文件</h3>
+<p>检查引导方式，上文提到已经改成了UEFI。</p>
+<pre><code>ls /sys/firmware/efi/efivars
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://gitee.com/xy-shen/my-image-beg/raw/master/imgs//20220221162406.png" alt="" loading="lazy"></figure>
+<p>如果命令结果显示了目录且没有报告错误，则系统以 UEFI 模式引导。 如果目录不存在，则系统可能以 BIOS 模式 (或 CSM 模式) 引导。</p>
+<p>安装<strong>GRUB</strong><code>pacman -S grub</code></p>
+<p>配置<strong>GRUB</strong><code>grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB</code></p>
+<p>生成默认配置文件<code>grub-mkconfig -o /boot/grub/grub.cfg</code></p>
+<p>以上参见<a href="https://wiki.archlinux.org/title/GRUB#Installation_2">GRUB - ArchWiki #installation</a></p>
+<h3 id="配置网络">配置网络</h3>
+<p>（注意是dhcpcd而不是dhcpd，后者是dhcp服务端而不是客户端）</p>
+<p><code>systemctl enable dhcpcd</code></p>
+<h3 id="退出重启">退出重启</h3>
+<p>退出已经暂时配置好的系统</p>
+<p><code>exit</code></p>
+<p>解除CD挂载, 重启虚拟机</p>
+<pre><code>umount -R /mnt
+reboot
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://freejool.github.io/post/hello-gridea/</id>
