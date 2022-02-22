@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://freejool.github.io</id>
     <title>Gridea</title>
-    <updated>2022-02-21T08:33:49.321Z</updated>
+    <updated>2022-02-22T05:24:20.415Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://freejool.github.io"/>
     <link rel="self" href="https://freejool.github.io/atom.xml"/>
@@ -16,7 +16,15 @@
         <link href="https://freejool.github.io/post/archlinux/">
         </link>
         <updated>2022-02-21T01:01:23.000Z</updated>
-        <content type="html"><![CDATA[<p>本文旨在记录我在VMWare中安装Archlinux的过程和中间遇到的坑。<br>
+        <content type="html"><![CDATA[<hr>
+<h2 id="title-在vmware中使用archlinux的第一步date-2022-02-21-090123tags-published-falsehideinlist-falsefeatureistop-false">title: '在VMWare中使用ArchLinux的第一步'<br>
+date: 2022-02-21 09:01:23<br>
+tags: []<br>
+published: false<br>
+hideInList: false<br>
+feature:<br>
+isTop: false</h2>
+<p>本文旨在记录我在VMWare中安装Archlinux的过程和中间遇到的坑。<br>
 参考：<a href="https://wiki.archlinux.org/title/Installation_guide">Installation_guide - ArchWiki</a>、<a href="https://www.cnblogs.com/cralor/p/13773986.html">VMware Workstation 安装 Arch Linux - cnblogs</a></p>
 <h1 id="安装">安装</h1>
 <h2 id="创建虚拟机">创建虚拟机</h2>
@@ -115,6 +123,24 @@ mount /dev/sda1 /mnt/efi
 <p>解除CD挂载, 重启虚拟机</p>
 <pre><code>umount -R /mnt
 reboot
+</code></pre>
+<p>至此ArchLinux已经安装完成，重启后即可使用root用户进入系统。为了提高ArchLinux的易用性，接下来将对其进行简单的配置，包括安装图形界面。</p>
+<h1 id="安装后配置">安装后配置</h1>
+<p>先通过root账户登录系统，使用<a href="#%E8%AE%BE%E7%BD%AEroot%E5%AF%86%E7%A0%81">上文</a>的密码</p>
+<h2 id="新建普通用户">新建普通用户</h2>
+<pre><code>useradd -m -G wheel username
+</code></pre>
+<h2 id="配置sudo">配置sudo</h2>
+<pre><code>pacman -S sudo
+ln -s /usr/bin/vim /usr/bin/vi
+visudo
+</code></pre>
+<p>在文件中找到<code># %wheel ALL=(ALL:ALL) ALL</code>，去掉前面的<code>#</code>，这就意味着wheel组内的所有用户都可以使用sudo。</p>
+<p>这时候可以重启，并用刚刚创建的用户来登录。</p>
+<h2 id="安装图形界面">安装图形界面</h2>
+<pre><code>sudo pacman -S xorg plasma kde-applications sddm networkmanager network-manager-applet
+sudo systemctl enable sddm
+sudo systemctl enable NetworkManager
 </code></pre>
 ]]></content>
     </entry>

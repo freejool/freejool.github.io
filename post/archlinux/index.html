@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>在VMWare中使用ArchLinux的第一步 | Gridea</title>
-<link rel="shortcut icon" href="https://freejool.github.io/favicon.ico?v=1645432364750">
+<link rel="shortcut icon" href="https://freejool.github.io/favicon.ico?v=1645507454186">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://freejool.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="在VMWare中使用ArchLinux的第一步 | Gridea - Atom Feed" href="https://freejool.github.io/atom.xml">
@@ -11,10 +11,14 @@
 
 
 
-    <meta name="description" content="本文旨在记录我在VMWare中安装Archlinux的过程和中间遇到的坑。
-参考：Installation_guide - ArchWiki、VMware Workstation 安装 Arch Linux - cnblogs
-安装
-创建虚..." />
+    <meta name="description" content="
+title: '在VMWare中使用ArchLinux的第一步'
+date: 2022-02-21 09:01:23
+tags: []
+published: false
+hideInList: false
+feature:
+isTop: ..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -24,7 +28,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://freejool.github.io">
-  <img class="avatar" src="https://freejool.github.io/images/avatar.png?v=1645432364750" alt="">
+  <img class="avatar" src="https://freejool.github.io/images/avatar.png?v=1645507454186" alt="">
   </a>
   <h1 class="site-title">
     Gridea
@@ -84,14 +88,22 @@
                 2022-02-21
               </span>
               <span>
-                5 min read
+                6 min read
               </span>
               
             </div>
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>本文旨在记录我在VMWare中安装Archlinux的过程和中间遇到的坑。<br>
+                <hr>
+<h2 id="title-在vmware中使用archlinux的第一步date-2022-02-21-090123tags-published-falsehideinlist-falsefeatureistop-false">title: '在VMWare中使用ArchLinux的第一步'<br>
+date: 2022-02-21 09:01:23<br>
+tags: []<br>
+published: false<br>
+hideInList: false<br>
+feature:<br>
+isTop: false</h2>
+<p>本文旨在记录我在VMWare中安装Archlinux的过程和中间遇到的坑。<br>
 参考：<a href="https://wiki.archlinux.org/title/Installation_guide">Installation_guide - ArchWiki</a>、<a href="https://www.cnblogs.com/cralor/p/13773986.html">VMware Workstation 安装 Arch Linux - cnblogs</a></p>
 <h1 id="安装">安装</h1>
 <h2 id="创建虚拟机">创建虚拟机</h2>
@@ -191,10 +203,39 @@ mount /dev/sda1 /mnt/efi
 <pre><code>umount -R /mnt
 reboot
 </code></pre>
+<p>至此ArchLinux已经安装完成，重启后即可使用root用户进入系统。为了提高ArchLinux的易用性，接下来将对其进行简单的配置，包括安装图形界面。</p>
+<h1 id="安装后配置">安装后配置</h1>
+<p>先通过root账户登录系统，使用<a href="#%E8%AE%BE%E7%BD%AEroot%E5%AF%86%E7%A0%81">上文</a>的密码</p>
+<h2 id="新建普通用户">新建普通用户</h2>
+<pre><code>useradd -m -G wheel username
+</code></pre>
+<h2 id="配置sudo">配置sudo</h2>
+<pre><code>pacman -S sudo
+ln -s /usr/bin/vim /usr/bin/vi
+visudo
+</code></pre>
+<p>在文件中找到<code># %wheel ALL=(ALL:ALL) ALL</code>，去掉前面的<code>#</code>，这就意味着wheel组内的所有用户都可以使用sudo。</p>
+<p>这时候可以重启，并用刚刚创建的用户来登录。</p>
+<h2 id="安装图形界面">安装图形界面</h2>
+<pre><code>sudo pacman -S xorg plasma kde-applications sddm networkmanager network-manager-applet
+sudo systemctl enable sddm
+sudo systemctl enable NetworkManager
+</code></pre>
 
               </div>
               <div class="toc-container">
                 <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#title-%E5%9C%A8vmware%E4%B8%AD%E4%BD%BF%E7%94%A8archlinux%E7%9A%84%E7%AC%AC%E4%B8%80%E6%AD%A5date-2022-02-21-090123tags-published-falsehideinlist-falsefeatureistop-false">title: '在VMWare中使用ArchLinux的第一步'<br>
+date: 2022-02-21 09:01:23<br>
+tags: []<br>
+published: false<br>
+hideInList: false<br>
+feature:<br>
+isTop: false</a></li>
+</ul>
+</li>
 <li><a href="#%E5%AE%89%E8%A3%85">安装</a>
 <ul>
 <li><a href="#%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA">创建虚拟机</a></li>
@@ -229,6 +270,13 @@ reboot
 <li><a href="#%E9%80%80%E5%87%BA%E9%87%8D%E5%90%AF">退出重启</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li><a href="#%E5%AE%89%E8%A3%85%E5%90%8E%E9%85%8D%E7%BD%AE">安装后配置</a>
+<ul>
+<li><a href="#%E6%96%B0%E5%BB%BA%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7">新建普通用户</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AEsudo">配置sudo</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2">安装图形界面</a></li>
 </ul>
 </li>
 </ul>
