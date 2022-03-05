@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://freejool.github.io</id>
     <title>Gridea</title>
-    <updated>2022-02-22T05:25:24.300Z</updated>
+    <updated>2022-03-05T06:59:16.093Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://freejool.github.io"/>
     <link rel="self" href="https://freejool.github.io/atom.xml"/>
@@ -10,6 +10,209 @@
     <logo>https://freejool.github.io/images/avatar.png</logo>
     <icon>https://freejool.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[JavaScript学习笔记 00]]></title>
+        <id>https://freejool.github.io/post/javascript-xue-xi-bi-ji-00/</id>
+        <link href="https://freejool.github.io/post/javascript-xue-xi-bi-ji-00/">
+        </link>
+        <updated>2022-03-05T04:26:43.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="脚本调用策略">脚本调用策略</h1>
+<p>HTML 元素是按其在页面中出现的次序调用的，如果用 JavaScript 来管理页面上的元素（更精确的说法是使用 文档对象模型 DOM），若 JavaScript 加载于欲操作的 HTML 元素之前，则代码将<strong>出错</strong>。比如在要操作的 HTML 元素之前的<code>&lt;head&gt;</code>中使用<code>&lt;script&gt;</code>直接嵌入js代码，或者使用<code>&lt;script src&gt;</code>引用js文件，因为该元素未被加载时无法被引用。</p>
+<p>解决方案分为内部和外部：</p>
+<pre><code class="language-javascript">//内部
+document.addEventListener(&quot;DOMContentLoaded&quot;, function() {
+  . . .
+});
+</code></pre>
+<p><code>DOMContentLoaded</code>是一个<a href="https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/Building_blocks/Events">事件</a>，而组合起来是一个<strong>事件监听器</strong>。他的工作就是监听“HTML加载完成”事件，当该事件发生后（HTML加载完成后），执行<code>. . .</code>处的代码。</p>
+<pre><code class="language-javascript">//外部
+&lt;script src=&quot;script.js&quot; async&gt;&lt;/script&gt;
+</code></pre>
+<p>这里使用了 JavaScript 的一项现代技术（async “异步”属性）来解决这一问题，它告知浏览器在遇到 <code>&lt;script&gt;</code> 元素时不要中断后续 HTML 内容的加载。</p>
+<p>然而，由于浏览器遇到<code>async</code>时将不阻塞之后 HTML 元素的渲染或 JavaScript 代码的执行，在有多个 JavaScript 外联代码的时候，将导致<strong>乱序执行</strong>。这在 JavaScript 文件互相独立的时候无伤大雅，但相互有关联的时候就会出错。</p>
+<p>于是就有了<code>defer</code>属性。它仅仅允许 HTML 元素和 JavaScript 代码直接的乱序，而保证 JavaScript 代码之间的顺序执行。但是显然<code>defer</code>的性能不如<code>async</code>。</p>
+<h2 id="小结">小结：</h2>
+<ul>
+<li>如果脚本无需等待页面解析，且无依赖独立运行，那么无需添加属性。</li>
+<li>如果脚本需要等待页面解析，且无依赖独立运行，那么应使用 <code>async</code>。</li>
+<li>如果脚本需要等待页面解析，且依赖于其它脚本，调用这些脚本时应使用 <code>defer</code>，将关联的脚本按所需顺序置于 HTML 中。</li>
+</ul>
+<h1 id="注释">注释</h1>
+<p><code>C</code>风格的注释。行注释<code>//</code>，多行注释<code>/*...*/</code>。</p>
+<h1 id="猜数游戏">猜数游戏</h1>
+<pre><code>开发一个猜数字游戏。游戏应随机选择一个 100 以内的自然数, 然后邀请玩家在 10 轮以内猜出这个数字。每轮后都应告知玩家的答案正确与否，如果出错了，则告诉他数字是低了还是高了。并且应显示出玩家前一轮所猜的数字。一旦玩家猜对，或者用尽所有机会，游戏将结束。游戏结束后，可以让玩家选择再次开始。
+</code></pre>
+<p>使用关键字 <code>let</code> （旧代码中使用 var）和一个名字来创建变量（参阅 <a href="https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/First_steps/Variables#var_%E4%B8%8E_let_%E7%9A%84%E5%8C%BA%E5%88%AB">let 和 var 之间的区别</a>）。常量用于存储不希望更改的数据，用关键字 <code>const</code> 创建。</p>
+<p>使用关键字 <code>function</code> 创建函数</p>
+<pre><code class="language-javascript">function checkGuess() {
+  alert('我是一个占位符');
+}
+//展示一个警告窗口‘我是一个占位符’
+</code></pre>
+<p>二元运算符 + - * /</p>
+<p>+= -=</p>
+<p>++ --</p>
+<p>=== !== &gt; &lt;</p>
+<p>条件语句：</p>
+<pre><code class="language-js">//C风格
+if (){}
+</code></pre>
+<h2 id="事件">事件</h2>
+<p>事件就是浏览器中发生的事儿，比如点击按钮、加载页面、播放视频，等等，</p>
+<p>侦听事件发生的结构称为<strong>事件监听器（Event Listener）</strong>，响应事件触发而运行的代码块被称为<strong>事件处理器（Event Handler）</strong>。</p>
+<pre><code class="language-js">guessSubmit.addEventListener('click', checkGuess);
+</code></pre>
+<p>这里为guessSubmit常量，也就是前面定义的<code>class guessSubmit</code>的引用，添加了一个事件监听器。<code>click</code>是事件的类型，<code>checkGuess</code>是<a href="https://developer.mozilla.org/zh-CN/docs/Web/Events">事件</a>发生时想要执行的代码（函数名无括号）。</p>
+<h2 id="for循环">for循环</h2>
+<p><code>C</code>风格<code>for (let i = 0; i &lt; 10; i++){}</code></p>
+<h2 id="对象">对象</h2>
+<pre><code class="language-js">guessField.focus();
+//聚焦于 guessField，提高可用性。
+</code></pre>
+<p><code>guessField</code> 是 HTML 中表单的引用。</p>
+<p>使用 <code>document</code> 对象的 <code>querySelector()</code> 方法可以获得这个引用。querySelector() 需要一个信息——用一个 <a href="https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Introduction_to_CSS/Selectors">CSS选择器</a> 可以选中需要引用的元素。</p>
+<p>现在，<code>guessField</code> 的属性和方法就是 HTML 中表单的属性和方法。例如 <code>focus()</code> 就是其中之一。</p>
+<h2 id="操作对象">操作对象</h2>
+<p><code>guessField.value = 'Hello';</code> 可以用来修改文本区域的值。</p>
+<p><code>guesses.value</code> 返回文本区域的值。</p>
+<h2 id="代码">代码</h2>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+
+    &lt;title&gt;猜数字游戏&lt;/title&gt;
+
+    &lt;style&gt;
+        html {
+            font-family: sans-serif;
+        }
+
+        body {
+            width: 50%;
+            max-width: 800px;
+            min-width: 480px;
+            margin: 0 auto;
+        }
+
+        .lastResult {
+            color: white;
+            padding: 3px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;h1&gt;猜数字游戏&lt;/h1&gt;
+
+    &lt;p&gt;我刚才随机选定了一个100以内的自然数。看你能否在 10 次以内猜中它。每次我都会告诉你所猜的结果是高了还是低了。&lt;/p&gt;
+
+    &lt;div class=&quot;form&quot;&gt;
+        &lt;label for=&quot;guessField&quot;&gt;请猜数: &lt;/label&gt;
+        &lt;input type=&quot;text&quot; id=&quot;guessField&quot; class=&quot;guessField&quot;&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;确定&quot; class=&quot;guessSubmit&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;resultParas&quot;&gt;
+        &lt;p class=&quot;guesses&quot;&gt;&lt;/p&gt;
+        &lt;p class=&quot;lastResult&quot;&gt;&lt;/p&gt;
+        &lt;p class=&quot;lowOrHi&quot;&gt;&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+
+        const guesses = document.querySelector('.guesses');
+        const lastResult = document.querySelector('.lastResult');
+        const lowOrHi = document.querySelector('.lowOrHi');
+
+        const guessSubmit = document.querySelector('.guessSubmit');
+        const guessField = document.querySelector('.guessField');
+
+        let guessCount = 1;
+        let resetButton;
+
+        guessSubmit.addEventListener('click', checkGuess);
+
+        function checkGuess() {
+            let userGuess = Number(guessField.value);
+            if (Number.isInteger(userGuess) &amp;&amp; userGuess &lt; 100 &amp;&amp; userGuess &gt; 0) {
+                if (guessCount === 1) {
+                    guesses.textContent = '上次猜的数：';
+                }
+                guesses.textContent += userGuess + ' ';
+
+                if (userGuess === randomNumber) {
+                    lastResult.textContent = '恭喜你！猜对了';
+                    lastResult.style.backgroundColor = 'green';
+                    lowOrHi.textContent = '';
+                    setGameOver();
+                } else if (guessCount === 10) {
+                    lastResult.textContent = '!!!GAME OVER!!!';
+                    setGameOver();
+                } else {
+                    lastResult.textContent = '你猜错了！';
+                    lastResult.style.backgroundColor = 'red';
+                    if (userGuess &lt; randomNumber) {
+                        lowOrHi.textContent = '你猜低了！';
+                    } else if (userGuess &gt; randomNumber) {
+                        lowOrHi.textContent = '你猜高了';
+                    }
+                }
+            }
+            else {
+                alert('请输入0-100的整数！');
+            }
+            guessCount++;
+            guessField.value = '';
+            guessField.focus();
+        }
+
+
+        function setGameOver() {
+            guessField.disabled = true;
+            guessSubmit.disabled = true;
+            resetButton = document.createElement('button');
+            resetButton.textContent = '开始新游戏';
+            document.body.appendChild(resetButton);
+            resetButton.addEventListener('click', resetGame);
+        }
+
+        function resetGame() {
+            guessCount = 1;
+
+            const resetParas = document.querySelectorAll('.resultParas p');
+            for (let i = 0; i &lt; resetParas.length; i++) {
+                resetParas[i].textContent = '';
+            }
+
+            resetButton.parentNode.removeChild(resetButton);
+
+            guessField.disabled = false;
+            guessSubmit.disabled = false;
+            guessField.value = '';
+            guessField.focus();
+
+            lastResult.style.backgroundColor = 'white';
+
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+        }
+    &lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<h1 id="总结">总结</h1>
+<p>原本我是有点看不起例如 JavaScript、Typescript之类的脚本语言的，觉得他们是给<em>想跳过数据结构、算法、计算机网络、操作系统的学习，趁着互联网热分一杯羹的非计算机专业的外行</em>设计的。我这样想，和那些对 Python 嗤之以鼻，认为 C++、Java 才是正统编程的人有什么区别呢。我能接受 Python ，何不接受 JavaScript 呢？</p>
+<p>计算机行业特别是互联网行业正在向<strong>轻量</strong>、<strong>易用</strong>发展。这次学习源于前几天想着要给大一做的出入校管理系统写个过得去的前端（原来是后端返回信息，C 在终端打印），让其成为一个算得上web应用的东西。然后让我惊讶的是我要么用 Tomcat 直接 print 一整个 HTML 页面出来，要么去学前端框架，也就必须要学 JavaScript。毫无疑问我选了后者，我有的是时间。</p>
+<p>这是我事实上第一次学习 JavaScript，最大的感受是没有学习 C、Java 等刚开始配置环境的苦痛，怪不得脚本语言这么流行呢。同时一些基本的语法和 C 几乎一样，好感++。</p>
+<p>更让我惊喜的是mozilla竟然有<a href="https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript">教程</a>！！还是中文的！！这和学习某些只能去b站看那些读ppt的语言&amp;工具相比实在是太友好了。而且中文版也不是机翻的，虽然是基于英文版写的，但完全进行了本地化。</p>
+<p>还想吐槽一下上学期的web课老师，一个学期过去了他都没提到 JavaScript 代码和 HTML 元素的前后顺序导致的问题。遇到的时候去问他也只是含糊的告诉我把脚本放在后面试试。</p>
+<p>我会继续学下去的。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[在VMWare中使用ArchLinux的第一步]]></title>
         <id>https://freejool.github.io/post/archlinux/</id>
