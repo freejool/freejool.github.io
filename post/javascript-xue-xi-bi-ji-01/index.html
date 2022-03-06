@@ -1,0 +1,384 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>JavaScript 学习笔记 01 | Gridea</title>
+<link rel="shortcut icon" href="https://freejool.github.io/favicon.ico?v=1646553543773">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://freejool.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="JavaScript 学习笔记 01 | Gridea - Atom Feed" href="https://freejool.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="查找并改正 JavaScript 中的错误
+一个出错的实例
+语法错误
+其中88和96行的addeventListener()应改为addEventListener()。
+第51行的lowOrHi应改为.lowOrHi。class名前加一个句..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://freejool.github.io">
+  <img class="avatar" src="https://freejool.github.io/images/avatar.png?v=1646553543773" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              JavaScript 学习笔记 01
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-03-06
+              </span>
+              <span>
+                8 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h2 id="查找并改正-javascript-中的错误">查找并改正 JavaScript 中的错误</h2>
+<p><a href="https://github.com/roy-tian/learning-area/blob/master/javascript/introduction-to-js-1/troubleshooting/number-game-errors.html">一个出错的实例</a></p>
+<h3 id="语法错误">语法错误</h3>
+<p>其中88和96行的<code>addeventListener()</code>应改为<code>addEventListener()</code>。</p>
+<p>第51行的<code>lowOrHi</code>应改为<code>.lowOrHi</code>。class名前加一个句点表示CSS选择器。</p>
+<h3 id="逻辑错误">逻辑错误</h3>
+<p>多次尝试后发现正确答案不是0就是1。第47行的<code>let randomNumber = Math.floor(Math.random()) + 1;</code>应改为<code>Math.floor(Math.random() * 100) + 1;</code></p>
+<h2 id="变量">变量</h2>
+<p>和 <code>C</code> 相同，变量的声明将被<strong>顶置</strong>，也就是说无论把声明语句放在代码的何处，它总会先于其他代码执行。</p>
+<h3 id="var和let"><code>var</code>和<code>let</code></h3>
+<p>使用<code>var</code>声明的变量可以重复声明，例如：</p>
+<pre><code class="language-js">var myName = 'Chris';
+var myName = 'Bob';
+</code></pre>
+<p>而使用<code>let</code>声明的变量无法被重复声明，上面的代码（改成<code>let</code>）将会报错。</p>
+<p>尽量使用<code>let</code>而非<code>var</code>。</p>
+<h3 id="变量命名">变量命名</h3>
+<p><a href="https://en.wikipedia.org/wiki/CamelCase#Variations_and_synonyms">小写驼峰命名法</a></p>
+<h3 id="变量类型">变量类型</h3>
+<p>Number String Boolean Array Object</p>
+<h3 id="动态类型">动态类型</h3>
+<p>也就是说，不需要在声明变量的时候规定它的类型。</p>
+<h2 id="math">Math</h2>
+<p>和Python完全一样，有<code>++</code>和<code>--</code>，并且允许前置。</p>
+<h2 id="字符串">字符串</h2>
+<p><code>string.length()</code>返回字符串的长度。</p>
+<p>无法使用<code>[-1]</code>来返回最后一个字符。</p>
+<h2 id="数组">数组</h2>
+<p>使用<code>push()</code>和<code>pop()</code>向数组末尾添加或删除元素，并返回数组长度或被删除的元素。</p>
+<p><code>unshift()</code> 和 <code>shift()</code> 从功能上与 <code>push()</code> 和 <code>pop()</code> 完全相同，只是它们分别作用于数组的开始，而不是结尾。</p>
+<h2 id="没品笑话生成器">没品笑话生成器</h2>
+<figure data-type="image" tabindex="1"><img src="https://gitee.com/xy-shen/my-image-beg/raw/master/imgs//20220306112433.png" alt="" loading="lazy"></figure>
+<h2 id="匿名函数">匿名函数</h2>
+<pre><code class="language-js">myButton.onclick = function() {
+  alert('hello');
+}
+</code></pre>
+<h2 id="箭头函数">箭头函数</h2>
+<pre><code class="language-js">() =&gt; {}
+</code></pre>
+<p>括号内写参数，只有一个参数是可以省略括号。花括号内写函数体。仅返回一个表达式的值的时候，不写花括号。</p>
+<pre><code class="language-js">num =&gt; Math.floor(Math.ranmon() * num);
+//返回[0,num)的随机整数
+</code></pre>
+<p>它比一般的函数少了些功能，但变得更<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Arrow_functions">简洁</a>了。它可以用来替代匿名函数。</p>
+<h2 id="事件">事件</h2>
+<p>几个可能发生的不同事件：</p>
+<ul>
+<li>用户在某个元素上点击鼠标或悬停光标。</li>
+<li>用户在键盘中按下某个按键。</li>
+<li>用户调整浏览器的大小或者关闭浏览器窗口。</li>
+<li>一个网页停止加载。</li>
+<li>提交表单。</li>
+<li>播放、暂停、关闭视频。</li>
+<li>发生错误。</li>
+</ul>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/Events">更多事件</a></p>
+<p><strong>事件监听器</strong>和<strong>事件处理器</strong>：监听器留意事件是否发生，然后处理器对事件发生作出回应。</p>
+<p>页面中只有一个 button，按下时，背景会变成随机的一种颜色。</p>
+<pre><code class="language-js">const btn = document.querySelector('button');
+
+function random(number) {
+  return Math.floor(Math.random()*(number+1));
+}
+
+btn.onclick = function() {
+  const rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+  document.body.style.backgroundColor = rndCol;
+}
+</code></pre>
+<p><code>button.onclick</code>是按钮的一个属性，将某个函数赋值给他后，就注册了一个事件监听器。当该按钮被点击时会调用这个函数。</p>
+<p>按钮的一些其它事件：</p>
+<ul>
+<li><code>btn.onfocus</code></li>
+<li><code>btn.onblur</code></li>
+<li><code>btn.ondblclick</code></li>
+<li><code>window.onkeypress</code></li>
+<li><code>window.onkeyup</code></li>
+<li><code>window.onkeydown</code></li>
+<li><code>btn.onmouseover</code></li>
+<li><code>btn.onmouseout</code></li>
+</ul>
+<p>请注意，这些属性<strong>没有</strong>遵守驼峰命名规则。</p>
+<pre><code class="language-html">&lt;button onclick=&quot;bgChange()&quot;&gt;Change color&lt;/button&gt;
+</code></pre>
+<p><strong>这么写是不好的，不要这么写</strong></p>
+<pre><code class="language-js">btn.addEventListener('click', bgChange);
+btn.removeEventListener('click', bgChange);
+//一种新的写法，应该这么写。
+</code></pre>
+<pre><code class="language-js">const divs = document.querySelectorAll('div');
+
+for (let i = 0; i &lt; divs.length; i++) {
+  divs[i].onclick = function(e) {
+    e.target.style.backgroundColor = bgChange();
+  }
+}
+</code></pre>
+<p><code>e</code>是event，被称为事件对象。每次按钮被点击，<code>e</code>作为参数被传入，<code>e.target</code>指向被点击的按钮。当页面中的多个按钮都注册了这个事件监听时，这种方法可以仅更改被点击的按钮的背景色而不是全部的按钮。</p>
+<h2 id="阻止默认行为">阻止默认行为</h2>
+<p>例如，不希望用户能够提交空的表单。虽然有些浏览器支持表单检查，但大多数不支持，所以最好还是自己实现。</p>
+<pre><code class="language-js">const form = document.querySelector('form');
+const fname = document.getElementById('fname');
+const lname = document.getElementById('lname');
+const submit = document.getElementById('submit');
+const para = document.querySelector('p');
+
+form.onsubmit = function(e) {
+  if (fname.value === '' || lname.value === '') {
+    e.preventDefault();
+    para.textContent = 'You need to fill in both names!';
+  }
+}
+</code></pre>
+<h2 id="事件冒泡及捕获">事件冒泡及捕获</h2>
+<p>一个非常简单的例子，它显示和隐藏一个包含<code>&lt;video&gt;</code>元素的<code>&lt;div&gt;</code>元素：</p>
+<pre><code class="language-html">&lt;button&gt;Display video&lt;/button&gt;
+
+&lt;div class=&quot;hidden&quot;&gt;
+  &lt;video&gt;
+    &lt;source src=&quot;rabbit320.mp4&quot; type=&quot;video/mp4&quot;&gt;
+    &lt;source src=&quot;rabbit320.webm&quot; type=&quot;video/webm&quot;&gt;
+    &lt;p&gt;Your browser doesn't support HTML5 video. Here is a &lt;a href=&quot;rabbit320.mp4&quot;&gt;link to the video&lt;/a&gt; instead.&lt;/p&gt;
+  &lt;/video&gt;
+&lt;/div&gt;
+</code></pre>
+<p>当‘’button‘’元素按钮被单击时，将显示视频，它是通过将改变<code>&lt;div&gt;</code>的<code>class</code>属性值从hidden变为showing(这个例子的CSS包含两个class，它们分别控制这个<code>&lt;div&gt;</code>盒子在屏幕上显示还是隐藏。)：</p>
+<pre><code class="language-js">btn.onclick = function() {
+  videoBox.setAttribute('class', 'showing');
+}
+</code></pre>
+<p>然后我们再添加几个onclick事件处理器，第一个添加在<code>&lt;div&gt;</code>元素上，第二个添加在<code>&lt;video&gt;</code>元素上。这个想法是当视频(<code>&lt;video&gt;</code>）外 <code>&lt;div&gt;</code>元素内这块区域被单击时，这个视频盒子应该再次隐藏；当单击视频(<code>&lt;video&gt;</code>）本身，这个视频将开始播放。</p>
+<pre><code class="language-js">videoBox.onclick = function() {
+  videoBox.setAttribute('class', 'hidden');
+};
+
+video.onclick = function() {
+  video.play();
+};
+</code></pre>
+<p>但是有一个问题 - 当点击video开始播放的视频时，它会在同一时间导致<code>&lt;div&gt;</code>也被隐藏。 这是因为video在<code>&lt;div&gt;</code>之内 - video是<code>&lt;div&gt;</code>的一个子元素 - 所以点击video实际上是同时也运行<code>&lt;div&gt;</code>上的事件处理程序。</p>
+<h3 id="对事件冒泡和捕捉的解释">对事件冒泡和捕捉的解释</h3>
+<p>当一个事件发生在具有父元素的元素上(例如，在我们的例子中是<code>&lt;video&gt;</code>元素)时，现代浏览器运行两个不同的阶段 - 捕获阶段和冒泡阶段。 在捕获阶段：</p>
+<ul>
+<li>浏览器检查元素的最外层祖先<code>&lt;html&gt;</code>，是否在捕获阶段中注册了一个onclick事件处理程序，如果是，则运行它。</li>
+<li>然后，它移动到<code>&lt;html&gt;</code>中单击元素的下一个祖先元素，并执行相同的操作，然后是单击元素再下一个祖先元素，依此类推，直到到达实际点击的元素。</li>
+</ul>
+<p>在冒泡阶段，恰恰相反:</p>
+<ul>
+<li>浏览器检查实际点击的元素是否在冒泡阶段中注册了一个onclick事件处理程序，如果是，则运行它</li>
+<li>然后它移动到下一个直接的祖先元素，并做同样的事情，然后是下一个，等等，直到它到达<code>&lt;html&gt;</code>元素。</li>
+</ul>
+<figure data-type="image" tabindex="2"><img src="https://gitee.com/xy-shen/my-image-beg/raw/master/imgs//20220306142118.png" alt="" loading="lazy"></figure>
+<p>上面这个例子注册了一个冒泡阶段。<code>&lt;video&gt;</code>的<code>onclick</code>首先被触发，然后往外冒泡至<code>div</code>，它的onclick也被触发。这显然不是预期的行为。</p>
+<p>使用<code>stopPropagation()</code>函数可以组织事件处理程序在冒泡链上进一步扩大。</p>
+<pre><code class="language-js">video.onclick = function(e) {
+  e.stopPropagation();
+  video.play();
+};
+</code></pre>
+<p><strong>事件委托</strong>的概念依托于冒泡。若果想要在某个元素的大量子元素中单击任何一个都可以运行一段代码，就可以在这个父元素上设置一个事件监听器，而不是在每个子元素上。但同时也要注意不同元素类型带来的事件处理函数的差异。</p>
+<h2 id="照片画廊">照片画廊</h2>
+<figure data-type="image" tabindex="3"><img src="https://gitee.com/xy-shen/my-image-beg/raw/master/imgs//20220306153331.png" alt="" loading="lazy"></figure>
+<pre><code class="language-js">btn.addEventListener('click', (e) =&gt; {
+    const thisBtn = e.target;
+    const darkOrLight = thisBtn.getAttribute('class');
+    if (darkOrLight === 'dark') {
+        thisBtn.setAttribute('class', 'light');
+        thisBtn.textContent = '变亮';
+        overlay.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    }
+    else if (darkOrLight === 'light') {
+        thisBtn.setAttribute('class', 'dark');
+        thisBtn.textContent = '变暗';
+        overlay.style.backgroundColor = 'rgba(0,0,0,0)'
+
+    }
+})
+</code></pre>
+<h2 id="总结">总结</h2>
+<p>遗憾的是，后续教程都是机翻的QAQ</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%9F%A5%E6%89%BE%E5%B9%B6%E6%94%B9%E6%AD%A3-javascript-%E4%B8%AD%E7%9A%84%E9%94%99%E8%AF%AF">查找并改正 JavaScript 中的错误</a>
+<ul>
+<li><a href="#%E8%AF%AD%E6%B3%95%E9%94%99%E8%AF%AF">语法错误</a></li>
+<li><a href="#%E9%80%BB%E8%BE%91%E9%94%99%E8%AF%AF">逻辑错误</a></li>
+</ul>
+</li>
+<li><a href="#%E5%8F%98%E9%87%8F">变量</a>
+<ul>
+<li><a href="#var%E5%92%8Clet"><code>var</code>和<code>let</code></a></li>
+<li><a href="#%E5%8F%98%E9%87%8F%E5%91%BD%E5%90%8D">变量命名</a></li>
+<li><a href="#%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B">变量类型</a></li>
+<li><a href="#%E5%8A%A8%E6%80%81%E7%B1%BB%E5%9E%8B">动态类型</a></li>
+</ul>
+</li>
+<li><a href="#math">Math</a></li>
+<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2">字符串</a></li>
+<li><a href="#%E6%95%B0%E7%BB%84">数组</a></li>
+<li><a href="#%E6%B2%A1%E5%93%81%E7%AC%91%E8%AF%9D%E7%94%9F%E6%88%90%E5%99%A8">没品笑话生成器</a></li>
+<li><a href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0">匿名函数</a></li>
+<li><a href="#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0">箭头函数</a></li>
+<li><a href="#%E4%BA%8B%E4%BB%B6">事件</a></li>
+<li><a href="#%E9%98%BB%E6%AD%A2%E9%BB%98%E8%AE%A4%E8%A1%8C%E4%B8%BA">阻止默认行为</a></li>
+<li><a href="#%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%8F%8A%E6%8D%95%E8%8E%B7">事件冒泡及捕获</a>
+<ul>
+<li><a href="#%E5%AF%B9%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E6%8D%89%E7%9A%84%E8%A7%A3%E9%87%8A">对事件冒泡和捕捉的解释</a></li>
+</ul>
+</li>
+<li><a href="#%E7%85%A7%E7%89%87%E7%94%BB%E5%BB%8A">照片画廊</a></li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://freejool.github.io/post/javascript-xue-xi-bi-ji-00/">
+              <h3 class="post-title">
+                JavaScript 学习笔记 00
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://freejool.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
