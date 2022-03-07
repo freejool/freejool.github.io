@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://freejool.github.io</id>
     <title>Sxing</title>
-    <updated>2022-03-07T03:42:01.176Z</updated>
+    <updated>2022-03-07T03:43:49.414Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://freejool.github.io"/>
     <link rel="self" href="https://freejool.github.io/atom.xml"/>
@@ -530,6 +530,28 @@ visudo
 sudo systemctl enable sddm
 sudo systemctl enable NetworkManager
 </code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[关于]]></title>
+        <id>https://freejool.github.io/post/about/</id>
+        <link href="https://freejool.github.io/post/about/">
+        </link>
+        <updated>2019-01-25T11:09:48.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
+</blockquote>
+<h2 id="关于本站">🏠 关于本站</h2>
+<p>在互联网中探索学习，不记录点什么，过后就忘啦</p>
+<h2 id="博主是谁">👨‍💻 博主是谁</h2>
+<p>sxing HDUer 社恐</p>
+<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
+<p>研究新奇的东西 古典音乐</p>
+<h2 id="在玩的游戏">🎮 在玩的游戏</h2>
+<p>CoD EldenRing DyingLight2 EverDale Sifu</p>
+<h2 id="联系我呀">📬 联系我呀</h2>
+<p>sxxxing@gmail.com</p>
+<p>Telegram:  <a href="https://t.me/xy_shen">@xy_shen</a></p>
 ]]></content>
     </entry>
     <entry>
