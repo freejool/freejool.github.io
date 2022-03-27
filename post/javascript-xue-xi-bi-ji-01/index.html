@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>JavaScript 学习笔记 01 | Sxing</title>
-<link rel="shortcut icon" href="https://freejool.github.io/favicon.ico?v=1646711451444">
+<link rel="shortcut icon" href="https://freejool.github.io/favicon.ico?v=1648353044100">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://freejool.github.io/styles/main.css">
 <link rel="alternate" type="application/atom+xml" title="JavaScript 学习笔记 01 | Sxing - Atom Feed" href="https://freejool.github.io/atom.xml">
@@ -25,7 +25,7 @@
       <div class="main-content">
         <div class="site-header">
   <a href="https://freejool.github.io">
-  <img class="avatar" src="https://freejool.github.io/images/avatar.png?v=1646711451444" alt="">
+  <img class="avatar" src="https://freejool.github.io/images/avatar.png?v=1648353044100" alt="">
   </a>
   <h1 class="site-title">
     Sxing
@@ -85,7 +85,7 @@
                 2022-03-06
               </span>
               <span>
-                8 min read
+                13 min read
               </span>
               
                 <a href="https://freejool.github.io/tag/FSawIk_2A/" class="post-tag">
@@ -275,6 +275,269 @@ video.onclick = function() {
     }
 })
 </code></pre>
+<h2 id="恶魔弹球">恶魔弹球</h2>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;弹跳彩球&lt;/title&gt;
+  &lt;style&gt;
+    html,
+    body {
+      margin: 0;
+    }
+
+    html {
+      font-family: sans-serif;
+      height: 100%;
+    }
+
+    body {
+      overflow: hidden;
+      height: inherit;
+    }
+
+    h1 {
+      font-size: 2rem;
+      letter-spacing: -1px;
+      position: absolute;
+      margin: 0;
+      top: -4px;
+      right: 5px;
+
+      color: transparent;
+      text-shadow: 0 0 4px white;
+    }
+
+    p {
+      position: absolute;
+      margin: 0;
+      top: 35px;
+      right: 5px;
+      color: #aaa;
+    }
+  &lt;/style&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;弹跳彩球&lt;/h1&gt;
+  &lt;p&gt;&lt;/p&gt;
+  &lt;canvas&gt;&lt;/canvas&gt;
+
+  &lt;script&gt;// 设置画布
+
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const width = canvas.width = window.innerWidth;
+    const height = canvas.height = window.innerHeight;
+
+    // 生成随机数的函数
+
+    function random(min, max) {
+      const num = Math.floor(Math.random() * (max - min)) + min;
+      return num;
+    }
+    function randomColor() {
+      return 'rgb(' +
+        random(0, 255) + ', ' +
+        random(0, 255) + ', ' +
+        random(0, 255) + ')';
+    }
+    class Shape {
+      constructor(x, y, velX, velY, exist) {
+        this.x = x;
+        this.y = y;
+        this.velX = velX;
+        this.velY = velY;
+        this.exist = exist
+      }
+    }
+    Shape.prototype.draw = function () {
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+    Shape.prototype.checkBounds = function () {
+      if ((this.x + this.size) &gt;= width) {
+        this.velX = -(this.velX);
+      }
+
+      if ((this.x - this.size) &lt;= 0) {
+        this.velX = -(this.velX);
+      }
+
+      if ((this.y + this.size) &gt;= height) {
+        this.velY = -(this.velY);
+      }
+
+      if ((this.y - this.size) &lt;= 0) {
+        this.velY = -(this.velY);
+      }
+
+      this.x += this.velX;
+      this.y += this.velY;
+
+    }
+    Shape.prototype.collisionDetect = function () {
+      for (let j = 0; j &lt; balls.length; j++) {
+        if (this !== balls[j]) {
+          const dx = this.x - balls[j].x;
+          const dy = this.y - balls[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance &lt; this.size + balls[j].size) {
+            balls[j].color = this.color = randomColor();
+          }
+        }
+      }
+    }
+    Shape.prototype.update = function () {
+      if ((this.x + this.size) &gt;= width) {
+        this.velX = -(this.velX);
+      }
+      if ((this.x - this.size) &lt;= 0) {
+        this.velX = -(this.velX);
+      }
+      if ((this.y + this.size) &gt;= height) {
+        this.velY = -(this.velY);
+      }
+      if ((this.y - this.size) &lt;= 0) {
+        this.velY = -(this.velY);
+      }
+      this.x += this.velX;
+      this.y += this.velY;
+    };
+    class Ball extends Shape {
+      constructor(x, y, velX, velY, color, size, exist) {
+        super(x, y, velX, velY, exist);
+        this.color = color;
+        this.size = size;
+
+      }
+    }
+
+    class EvilCircle extends Shape {
+      constructor(x, y, velX, velY, exist) {
+        velX = 20;
+        velY = 20;
+        super(x, y, velX, velY, exist);
+        this.color = 'white'
+        this.size = 10;
+      }
+    }
+
+    EvilCircle.prototype.draw = function () {
+      ctx.beginPath();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = this.color;
+      ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
+      ctx.stroke();
+    }
+
+    EvilCircle.prototype.collisionDetect = function () {
+      for (let j = 0; j &lt; balls.length; j++) {
+        const dx = this.x - balls[j].x;
+        const dy = this.y - balls[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance &lt; this.size + balls[j].size &amp;&amp; balls[j].exist === true) {
+          balls[j].exist = false;
+          ballsAlive -= 1;
+        }
+
+      }
+    }
+    EvilCircle.prototype.setControls = function () {
+      window.onkeydown = e =&gt; {
+        switch (e.key) {
+          case 'a':
+            this.x -= this.velX;
+            break;
+          case 'd':
+            this.x += this.velX;
+            break;
+          case 'w':
+            this.y -= this.velY;
+            break;
+          case 's':
+            this.y += this.velY;
+            break;
+        }
+      };
+    }
+
+    EvilCircle.prototype.checkBounds = function () {
+      if ((this.x + this.size) &gt;= width) {
+        this.x -= 20;
+      }
+      if ((this.x - this.size) &lt;= 0) {
+        this.x += 20;
+      }
+      if ((this.y + this.size) &gt;= height) {
+        this.y -= 20;
+      }
+      if ((this.y - this.size) &lt;= 0) {
+        this.y += 20;
+      }
+    }
+    let balls = [];
+
+    while (balls.length &lt; 25) {
+      let size = random(10, 20);
+
+      let ball = new Ball(
+        random(0 + size, width - size),
+        random(0 + size, height - size),
+        random(-7, 7),
+        random(-7, 7),
+        randomColor(),
+        size,
+        true
+      );
+      balls.push(ball);
+    }
+
+    function loop() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
+      ctx.fillRect(0, 0, width, height);
+
+      for (let i = 0; i &lt; balls.length; i++) {
+        if (balls[i].exist) {
+          balls[i].draw();
+          balls[i].update();
+          balls[i].collisionDetect();
+        }
+      }
+      evilCircle.draw();
+      evilCircle.checkBounds();
+      evilCircle.collisionDetect();
+
+      requestAnimationFrame(loop);
+      scoreP.textContent = '还剩' + ballsAlive + '个球';
+    }
+    let size = random(10, 20);
+    let evilCircle = new EvilCircle(
+      random(0 + size, width - size),
+      random(0 + size, height - size),
+      random(-7, 7),
+      random(-7, 7),
+      true
+    );
+    evilCircle.setControls();
+    let scoreP = document.querySelector('p');
+    let ballsAlive = balls.length;
+    loop();
+  &lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+
+
+</code></pre>
 <h2 id="总结">总结</h2>
 <p>遗憾的是，后续教程都是机翻的QAQ</p>
 
@@ -311,6 +574,7 @@ video.onclick = function() {
 </ul>
 </li>
 <li><a href="#%E7%85%A7%E7%89%87%E7%94%BB%E5%BB%8A">照片画廊</a></li>
+<li><a href="#%E6%81%B6%E9%AD%94%E5%BC%B9%E7%90%83">恶魔弹球</a></li>
 <li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
 </ul>
 </li>
